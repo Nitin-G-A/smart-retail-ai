@@ -6,7 +6,9 @@ const APP_CONFIG = {
     USE_DEMO_DATA: false,
 
     // Where the Spring Boot backend will run (Step 4). Proposed, not yet existing.
-    API_BASE_URL: "http://localhost:8080",
+    API_BASE_URL: (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+    ? "http://localhost:8080"
+    : "https://smart-retail-ai-8ame.onrender.com",
 
     // Initial form values required by the project brief
     DEFAULT_BUDGET: 1500,

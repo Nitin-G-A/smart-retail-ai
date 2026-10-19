@@ -21,7 +21,7 @@
 -- Run in MySQL Workbench AFTER schema.sql and migrations/001 and 002.
 -- Safe to run more than once: it replaces ALL rows in shops.
 
-USE smart_retail;
+USE defaultdb;
 
 INSERT IGNORE INTO categories (category_name) VALUES
   ('Fashion & Apparel'),

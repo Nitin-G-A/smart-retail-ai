@@ -2,8 +2,7 @@
 -- Hosted MySQL gives you an admin user already, so there is no CREATE USER here.
 -- Run it while connected to the server, then run mall-of-asia-data.sql.
 
-CREATE DATABASE IF NOT EXISTS smart_retail CHARACTER SET utf8mb4;
-USE smart_retail;
+use defaultdb;
 
 CREATE TABLE IF NOT EXISTS categories (
                                           category_id   INT NOT NULL AUTO_INCREMENT,
