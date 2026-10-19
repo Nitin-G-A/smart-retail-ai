@@ -1,119 +1,328 @@
-# Smart Retail AI: Mall Shop Finder
+# Smart Retail AI — Mall Shop Finder 🛍️
 
-A web app that helps a shopper find shops in **Phoenix Mall of Asia, Bengaluru** by budget and category,
-or by describing what they want in plain English ("casual clothes for college under 2000").
-Each result shows the shop name, category, floor, shop number and price range.
+Find shops at **Phoenix Mall of Asia, Bengaluru**, based on your budget, shopping category, or a natural-language description.
 
-> Student portfolio project. Not affiliated with the mall. See [Data and limitations](#data-and-limitations).
+For example, enter *"Find casual clothes for college under ₹2,000"* and get matching shop recommendations with their categories, floors, shop numbers, and estimated price ranges.
 
-## Features
-- Search by **budget (₹) + category** (Fashion & Apparel, Food & Beverage, Entertainment & Leisure, Electronics & Technology).
-- **Describe it** tab: a sentence is turned into a budget and category by the Gemini API, then validated by the backend.
-- Ranking: shops whose whole price range fits the budget come first, then higher rating, then lower starting price.
-- Clear loading, empty, error and validation states. Budget is validated in the browser **and** again on the server.
+<p align="center">
+  <a href="https://smart-retail-ai-frontend.vercel.app">
+    <strong>🚀 Try the Live Demo</strong>
+  </a>
+  &nbsp; | &nbsp;
+  <a href="https://github.com/Nitin-G-A/smart-retail-ai">
+    <strong>📂 GitHub Repository</strong>
+  </a>
+</p>
 
-## Tech stack
-| Layer | Technology |
+> Student portfolio project. Not affiliated with Phoenix Mall of Asia. See [Data and Limitations](#data-and-limitations).
+
+## 🌐 Live Demo
+
+| Component | Link | Status |
+|---|---|---|
+| Frontend | [Open Smart Retail AI](https://smart-retail-ai-frontend.vercel.app) | Deployed on Vercel |
+| Backend API | [View Categories API](https://smart-retail-ai-8ame.onrender.com/api/categories) | Deployed on Render |
+| Shops API | [View Shops API](https://smart-retail-ai-8ame.onrender.com/api/shops) | Deployed on Render |
+| Source Code | [GitHub Repository](https://github.com/Nitin-G-A/smart-retail-ai) | Public repository |
+
+*Note: The free Render service may sleep after inactivity, so the first API request can take longer to respond.*
+
+## 📸 Screenshots
+
+### Smart Retail AI — Home Page
+
+<!-- Add your screenshot at docs/screenshots/homepage.png -->
+![Smart Retail AI Homepage](docs/screenshots/homepage.png)
+
+### Shop Recommendations
+
+<!-- Add your screenshot at docs/screenshots/recommendations.png -->
+![Shop Recommendations](docs/screenshots/recommendations.png)
+
+### Natural Language Search
+
+<!-- Add your screenshot at docs/screenshots/natural-language-search.png -->
+![Natural Language Search](docs/screenshots/natural-language-search.png)
+
+To display these screenshots on GitHub, create a `docs/screenshots/` folder in your repository and upload the corresponding image files. Until you add them, these image links will not display.
+
+## ✨ Features
+
+- **Budget-based search:** Find shops that match your budget.
+- **Category filtering:** Search across Fashion & Apparel, Food & Beverage, Entertainment & Leisure, and Electronics & Technology.
+- **Natural-language search:** Describe what you need in plain English.
+- **AI-powered parsing:** Google Gemini converts a natural-language request into structured search criteria, such as budget and category.
+- **Backend validation:** Validates user input and AI-generated values before using them.
+- **Shop recommendations:** Ranks matching shops using budget fit, rating, and starting price.
+- **Shop details:** Displays shop name, category, floor, shop number, and estimated price range.
+- **Responsive interface:** A simple web interface built with HTML, CSS, and JavaScript.
+- **Error handling:** Includes loading, validation, empty-result, and error states.
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
 |---|---|
-| Frontend | HTML, CSS, vanilla JavaScript (no framework) |
-| Backend | Java 21, Spring Boot 4.0.8, Spring MVC (REST), Spring Data JPA / Hibernate |
+| Frontend | HTML5, CSS3, JavaScript |
+| Backend | Java 21, Spring Boot, Spring MVC |
+| Data access | Spring Data JPA, Hibernate |
 | Database | MySQL 8 |
-| AI | Google Gemini API (called only from the backend) |
-| Build / tests | Maven, JUnit 5 |
+| AI integration | Google Gemini API |
+| Build tool | Maven |
+| Testing | JUnit 5 |
+| Frontend deployment | Vercel |
+| Backend deployment | Render |
+| Database hosting | Aiven for MySQL |
+| Version control | Git and GitHub |
 
-## Architecture
-```
-Browser (frontend/) ──HTTP/JSON──► Controller ─► Service ─► Repository ─► MySQL
-                                       │
-                                       └─► LlmService ──► Gemini API   (text -> {budget, category} only)
-```
-- Controllers only handle HTTP. Business rules live in `ShopService`. SQL/JPA lives in the repositories.
-- The AI never returns shops. It only parses the sentence. **All shop data comes from MySQL.**
-- `GlobalExceptionHandler` returns every error as `{ "message": "..." }` with the right status code.
+## 🏗️ Architecture
 
-## Project structure
+```text
+User
+ │
+ ▼
+HTML / CSS / JavaScript Frontend
+ │
+ ├── Budget + Category Search
+ │
+ └── Natural-Language Search
+             │
+             ▼
+       Spring Boot REST API
+             │
+       ┌─────┴──────┐
+       ▼            ▼
+   Shop Service   LLM Service
+       │            │
+       ▼            ▼
+   Repository    Gemini API
+       │
+       ▼
+      MySQL
 ```
+
+**Design principles**
+
+- Controllers handle HTTP requests and responses.
+- Business rules and recommendation ranking are implemented in the service layer.
+- Repositories manage database access.
+- Gemini parses the user's request; it does not generate the shop database or independently choose the final recommendations.
+- Shop information is retrieved from MySQL.
+- API keys and database credentials are stored in environment variables rather than frontend code.
+
+## 📁 Project Structure
+
+```text
 smart-retail-ai/
-├── frontend/   index.html, css/styles.css, js/{config,api,app,demo-data}.js
-├── backend/    pom.xml, src/main/java/com/smartretail/backend/{controller,service,repository,entity,dto,exception,config}
-│               src/main/resources/application.properties, src/test/java/...
-└── database/   schema.sql, mall-of-asia-data.sql, sample-data.sql (fictional), migrations/
+├── frontend/
+│   ├── index.html
+│   ├── css/
+│   │   └── styles.css
+│   └── js/
+│       ├── config.js
+│       ├── api.js
+│       ├── app.js
+│       └── demo-data.js
+├── backend/
+│   ├── pom.xml
+│   └── src/
+│       ├── main/
+│       │   ├── java/com/smartretail/backend/
+│       │   │   ├── controller/
+│       │   │   ├── service/
+│       │   │   ├── repository/
+│       │   │   ├── entity/
+│       │   │   ├── dto/
+│       │   │   ├── exception/
+│       │   │   └── config/
+│       │   └── resources/
+│       └── test/
+└── database/
+    ├── schema.sql
+    ├── schema-cloud.sql
+    ├── mall-of-asia-data.sql
+    ├── sample-data.sql
+    └── migrations/
 ```
 
-## Setup
+## 🚀 Run Locally
 
-### 1. Database
-In MySQL Workbench:
-1. Edit `CHANGE_ME` in `database/schema.sql`, then run it.
-2. Run `database/mall-of-asia-data.sql` (174 shops).
+### Prerequisites
 
-### 2. Backend
-Set these **environment variables** (IntelliJ: Run > Edit Configurations > Environment variables, separated by `;`):
+- Java 21
+- Maven
+- MySQL 8
+- Git
+- An IDE such as IntelliJ IDEA
+- A Gemini API key for natural-language AI search
 
-| Variable | Meaning |
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Nitin-G-A/smart-retail-ai.git
+cd smart-retail-ai
+```
+
+### 2. Set up the database
+
+1. Open MySQL Workbench.
+2. Run `database/schema.sql` to create the database and tables.
+3. Run `database/mall-of-asia-data.sql` to insert the mall shop records.
+4. Verify that the data was inserted successfully.
+
+Use `database/schema-cloud.sql` for the hosted database setup when appropriate. Follow the SQL file's instructions for database users and permissions.
+
+### 3. Configure the backend
+
+Set these environment variables in IntelliJ IDEA under **Run → Edit Configurations → Environment variables**.
+
+| Variable | Purpose |
 |---|---|
-| `DB_USERNAME` | `smartretail_app` |
-| `DB_PASSWORD` | the password you chose |
-| `LLM_API_KEY` | Gemini key from https://aistudio.google.com/apikey (optional: without it the Describe tab shows "AI search is not set up") |
+| `DB_USERNAME` | MySQL username |
+| `DB_PASSWORD` | MySQL password |
+| `LLM_API_KEY` | Gemini API key |
+| `DB_URL` | Hosted MySQL JDBC URL, when required by the deployment configuration |
+| `CORS_ORIGINS` | Allowed frontend origin(s) on Render |
 
-Run `BackendApplication` (or `mvn spring-boot:run` inside `backend/`). It listens on http://localhost:8080.
+Use your own credentials. Never commit database passwords or API keys to GitHub.
 
-### 3. Frontend
-Open `frontend/index.html` with IntelliJ's "Open in Browser", or run `python -m http.server 5500` inside `frontend/`
-and visit http://localhost:5500. Allowed browser origins are listed in `app.cors.allowed-origins`.
-`frontend/js/config.js` has `USE_DEMO_DATA` (true = built-in fictional data, no backend needed).
+For local development, use the JDBC URL configured for your local MySQL instance, for example:
 
-## API
-| Method | Path | Description |
-|---|---|---|
-| GET | `/api/categories` | The four category names |
-| GET | `/api/shops?category=` | All shops, optionally one category |
-| GET | `/api/shops/recommend?budget=1500&category=Food%20%26%20Beverage` | Shops with lowest price <= budget, ranked |
-| POST | `/api/ai/parse-request` | Body `{"text":"..."}` returns `{"budget":2000,"category":"Fashion & Apparel"}`; either value can be `null` |
-
-Errors: `400` invalid input (bad budget, unknown category, blank or over-300-character text), `503` AI unavailable.
-All errors look like `{ "message": "..." }`.
-
-## Deployment (free tier)
-Frontend, backend and database each run on a free plan. No credit card was required by these services when this was written;
-free plans change, so check each site.
-
-| Part | Service | Notes |
-|---|---|---|
-| Code | GitHub | public repository |
-| Database | Aiven for MySQL (free plan) | 1 GB, no time limit; may power off if unused |
-| Backend | Render web service (Docker, free) | sleeps after 15 minutes idle; first request takes about a minute |
-| Frontend | Vercel (or GitHub Pages) | static site, root directory `frontend` |
-
-Backend environment variables on Render: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `LLM_API_KEY`, `CORS_ORIGINS` (the frontend URL).
-`DB_URL` looks like `jdbc:mysql://HOST:PORT/smart_retail?sslMode=REQUIRED`. Use `database/schema-cloud.sql` instead of `schema.sql` on a hosted database.
-
-## Tests
+```text
+jdbc:mysql://localhost:3306/smart_retail
 ```
+
+### 4. Start the backend
+
+From the project root:
+
+```bash
 cd backend
+mvn spring-boot:run
+```
+
+The backend should be available at:
+
+```text
+http://localhost:8080
+```
+
+### 5. Start the frontend
+
+In another terminal, navigate to the frontend directory:
+
+```bash
+cd frontend
+python -m http.server 5500
+```
+
+Open this URL in your browser:
+
+```text
+http://localhost:5500
+```
+
+Check `frontend/js/config.js` to confirm that `USE_DEMO_DATA` is set to `false` when using the real backend, and that `API_BASE_URL` points to the correct server.
+
+## 🔌 REST API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/categories` | Returns supported shopping categories |
+| GET | `/api/shops` | Returns shops, optionally filtered by category |
+| GET | `/api/shops/recommend?budget=1500&category=Food%20%26%20Beverage` | Returns budget-based recommendations |
+| POST | `/api/ai/parse-request` | Parses a natural-language shopping request |
+
+### Example: Parse a shopping request
+
+**Request**
+
+```http
+POST /api/ai/parse-request
+Content-Type: application/json
+```
+
+```json
+{
+  "text": "Find casual clothes for college under 2000"
+}
+```
+
+**Example response**
+
+```json
+{
+  "budget": 2000,
+  "category": "Fashion & Apparel"
+}
+```
+
+The response is an example of the expected format. Actual output depends on the request and AI service.
+
+## ☁️ Deployment
+
+The project is deployed using free-tier hosting options where available.
+
+| Component | Service |
+|---|---|
+| Source code | GitHub |
+| MySQL database | Aiven for MySQL |
+| Spring Boot backend | Render |
+| Static frontend | Vercel |
+
+### Deployment configuration
+
+- **Vercel:** Root directory is `frontend`.
+- **Render:** Configure the backend build and start commands according to the repository's backend setup.
+- **Database:** Configure the hosted MySQL connection using environment variables.
+- **CORS:** Allow requests from the deployed frontend origin.
+- **Gemini:** Configure the API key on the backend, not in frontend JavaScript.
+
+Hosting providers may change their free-tier limits, so check their current plans.
+
+## 🧪 Testing
+
+Run the backend tests from the `backend/` directory:
+
+```bash
 mvn test
 ```
-`ShopServiceTest` covers ranking, boundary budgets, validation and unknown categories using in-memory fakes (no database).
-`LlmServiceTest` covers the rule that the AI's answer is never trusted (unknown category, negative or huge budget, injected text).
-Not covered yet: controller (MockMvc) tests and an end-to-end test against a real MySQL.
 
-## Data and limitations
-Be honest about what is real:
-- **Shop names and floors** come from public third-party mall directories and may be out of date. Five stores whose floor differs
-  between sources are flagged "unconfirmed" in the database (`floor_uncertain`).
-- **Shop numbers are placeholders** (floor code + running number, e.g. `2-11`). The mall's real unit numbers are not public.
-- **Prices are estimates** by brand positioning, not prices published by the shops.
-- **Ratings** are empty because no reliable source was available.
-- Beauty, jewellery, watches, luggage and home stores are grouped under *Fashion & Apparel* because the app has four categories.
-- The mall's own website was not used (it disallows automated access).
+The project includes service-level tests for recommendation ranking and input validation, as well as AI-response validation tests. Controller and full end-to-end coverage may require additional tests.
 
-## Security notes
-- Secrets (database password, Gemini key) come only from environment variables, never from code or the frontend.
-- The app's MySQL user can only SELECT/INSERT/UPDATE/DELETE on one database.
-- User text is length-limited, sent to the AI as data, and the AI's answer is validated before use.
-- The frontend writes API data with `textContent`, so shop data cannot inject HTML.
-- CORS allows only the listed local origins.
+## 📊 Data and Limitations
 
-## Future scope
-Real unit numbers and prices from the mall or shop owners, admin screen to edit shops, user accounts and favourites,
-more malls, controller and integration tests, deployment (e.g. Render/Railway for the backend and Vercel for the frontend).
+- Shop names and floor information are based on third-party mall directories and may be outdated.
+- Shop numbers are placeholders rather than verified official unit numbers.
+- Price ranges are estimates and are not guaranteed to reflect current store prices.
+- Reliable shop ratings were not available for all entries.
+- Some store types are grouped into the four supported categories.
+- This is a student project and is not officially affiliated with the mall.
+
+## 🔐 Security
+
+- Database credentials and the Gemini API key are configured through environment variables.
+- The database application user should have only the permissions it needs.
+- Natural-language input and AI-generated values are validated by the backend.
+- Frontend rendering should use safe text APIs such as `textContent` for data received from the server.
+- CORS should allow only the origins needed by the application.
+
+## 🔮 Future Improvements
+
+- Verify official shop unit numbers and current prices.
+- Add an admin dashboard to manage shop data.
+- Add more malls and shopping categories.
+- Improve recommendation personalization.
+- Add controller and end-to-end integration tests.
+- Add user accounts, favourites, and search history.
+
+## 👨‍💻 Author
+
+**Nitin G A**
+
+B.Tech — Computer Science and Information Technology
+
+[GitHub Profile](https://github.com/Nitin-G-A)
+
+---
+
+⭐ If you find this project interesting, consider starring the repository!
