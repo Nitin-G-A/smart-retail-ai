@@ -1,0 +1,208 @@
+/* Smart Retail AI — styles.css
+   Layout, colours and component styles. No logic here. */
+
+:root {
+    --green: #0f6b3a;
+    --green-dark: #0a4d2a;
+    --green-soft: #e6f3ec;
+    --bg: #f4f7f5;
+    --card: #ffffff;
+    --text: #1d2b24;
+    --muted: #5b6b62;
+    --border: #d5e0d9;
+    --amber: #92400e;
+    --amber-soft: #fef3c7;
+    --red: #b91c1c;
+    --red-soft: #fee2e2;
+    --blue: #1e40af;
+    --blue-soft: #dbeafe;
+    --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+/* Makes the HTML `hidden` attribute win over any display rule below */
+[hidden] { display: none !important; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+/* ---------- Header / footer ---------- */
+.site-header {
+    background: var(--green);
+    color: #fff;
+    padding: 24px 0;
+}
+.site-header h1 { margin: 0 0 4px; font-size: 1.75rem; }
+.site-header p { margin: 0; opacity: 0.9; }
+
+.site-footer {
+    padding: 24px 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+main { padding-top: 20px; padding-bottom: 8px; }
+
+/* ---------- Mode banner (demo vs live) ---------- */
+.mode-banner {
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    border: 1px solid transparent;
+}
+.mode-banner.demo { background: var(--amber-soft); color: var(--amber); border-color: #f5d98a; }
+.mode-banner.live { background: var(--green-soft); color: var(--green-dark); border-color: #b7dcc7; }
+
+/* ---------- Search panel ---------- */
+.panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+}
+.panel h2 { margin: 0 0 12px; font-size: 1.15rem; }
+
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.tab {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 999px;
+    font: inherit;
+    cursor: pointer;
+    color: var(--muted);
+}
+.tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+.tab:focus-visible, .btn:focus-visible { outline: 3px solid #86c9a4; outline-offset: 2px; }
+
+.search-form { display: grid; gap: 14px; }
+.field label { display: block; font-weight: 600; margin-bottom: 4px; }
+.field input, .field select, .field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+    outline: 2px solid var(--green);
+    border-color: var(--green);
+}
+.field.invalid input, .field.invalid textarea { border-color: var(--red); }
+.field-error { color: var(--red); font-size: 0.875rem; margin: 4px 0 0; min-height: 1.2em; }
+.hint { color: var(--muted); font-size: 0.85rem; margin: 2px 0 0; }
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn.primary { background: var(--green); border-color: var(--green); color: #fff; }
+.btn.primary:hover:not(:disabled) { background: var(--green-dark); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (min-width: 640px) {
+    #form-search { grid-template-columns: 1fr 1fr auto; align-items: start; }
+    #form-search .btn { margin-top: 26px; }
+}
+
+/* ---------- Results ---------- */
+.results { margin-top: 20px; }
+
+.notice {
+    background: var(--blue-soft);
+    color: var(--blue);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+}
+.notice .btn { margin-top: 8px; padding: 6px 12px; font-size: 0.9rem; }
+
+.state {
+    text-align: center;
+    padding: 28px 16px;
+    color: var(--muted);
+}
+.state:empty { display: none; }
+.state h3 { margin: 8px 0 4px; color: var(--text); }
+.state p { margin: 0 0 12px; }
+.state.error h3 { color: var(--red); }
+.state.error { background: var(--red-soft); border-radius: var(--radius); }
+
+.spinner {
+    width: 32px; height: 32px;
+    margin: 0 auto;
+    border: 4px solid var(--green-soft);
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+.results-header h2 { margin: 0; font-size: 1.15rem; }
+
+.badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+.badge.demo { background: var(--amber-soft); color: var(--amber); }
+.badge.live { background: var(--green-soft); color: var(--green-dark); }
+
+.grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* ---------- Shop card ---------- */
+.shop-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.shop-card-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.chip { background: var(--green-soft); color: var(--green-dark); font-size: 0.8rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+.rating { font-size: 0.85rem; color: var(--muted); }
+.demo-tag { font-size: 0.75rem; font-weight: 700; color: var(--amber); background: var(--amber-soft); padding: 2px 8px; border-radius: 6px; align-self: flex-start; }
+.shop-name { margin: 0; font-size: 1.1rem; }
+.shop-desc { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+.shop-details { margin: 4px 0 0; display: grid; gap: 4px; }
+.shop-details div { display: flex; justify-content: space-between; gap: 12px; font-size: 0.95rem; }
+.shop-details dt { color: var(--muted); }
+.shop-details dd { margin: 0; font-weight: 600; text-align: right; }
+
+.fit { margin: 4px 0 0; font-size: 0.85rem; font-weight: 600; }
+.fit.full { color: var(--green-dark); }
+.fit.partial { color: var(--amber); }

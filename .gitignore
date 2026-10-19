@@ -1,0 +1,20 @@
+# Build output
+backend/target/
+*.class
+*.jar
+*.log
+
+# IDE (IntelliJ run configurations can contain passwords and API keys)
+.idea/
+*.iml
+.vscode/
+
+# Secrets: never commit these
+.env
+*.env
+application-local.properties
+application-secret.properties
+
+# OS junk
+.DS_Store
+Thumbs.db
