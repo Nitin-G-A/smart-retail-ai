@@ -27,25 +27,6 @@ For example, enter *"Find casual clothes for college under ₹2,000"* and get ma
 
 *Note: The free Render service may sleep after inactivity, so the first API request can take longer to respond.*
 
-## 📸 Screenshots
-
-### Smart Retail AI — Home Page
-
-<!-- Add your screenshot at docs/screenshots/homepage.png -->
-![Smart Retail AI Homepage](docs/screenshots/homepage.png)
-
-### Shop Recommendations
-
-<!-- Add your screenshot at docs/screenshots/recommendations.png -->
-![Shop Recommendations](docs/screenshots/recommendations.png)
-
-### Natural Language Search
-
-<!-- Add your screenshot at docs/screenshots/natural-language-search.png -->
-![Natural Language Search](docs/screenshots/natural-language-search.png)
-
-To display these screenshots on GitHub, create a `docs/screenshots/` folder in your repository and upload the corresponding image files. Until you add them, these image links will not display.
-
 ## ✨ Features
 
 - **Budget-based search:** Find shops that match your budget.
